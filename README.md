@@ -1,1 +1,1 @@
-# MediaAjar-V2
+Tested On Termux, AnWritter, Dcoder, and VSCode
