@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Media Pembelajaran | الحديقة الحيوان</title>
+    
+    <style>
+        /* Import Font: Menambahkan Amiri untuk teks Arab yang lebih jelas */
+        @import url('https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@400;700&family=Poppins:wght@400;600&display=swap');
+
+        :root {
+            --primary-color: #4CAF50; /* Hijau Kebun Binatang */
+            --secondary-color: #FFC107; /* Kuning Cerah */
+            --background-color: #F0F8FF; /* Biru Langit Muda */
+            --card-color: #FFFFFF;
+            --text-color: #333333;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .screen {
+            width: 100%;
+            max-width: 1000px;
+            background: var(--card-color);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            display: none;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        .screen.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- Welcome Screen --- */
+        #welcome-screen {
+            text-align: center;
+        }
+
+        .welcome-box {
+            padding: 30px;
+        }
+
+        .welcome-box h1 {
+            font-size: 3em;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+
+        .welcome-box h2, .welcome-box h3 {
+            color: var(--secondary-color);
+        }
+
+        #student-name {
+            width: 80%;
+            padding: 12px;
+            margin: 20px 0;
+            border: 2px solid var(--primary-color);
+            border-radius: 10px;
+            font-size: 1.1em;
+        }
+
+        button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1.1em;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #388E3C; /* Darker green */
+        }
+
+        /* --- Main Menu --- */
+        #main-menu header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        #main-menu h1 {
+            color: var(--primary-color);
+        }
+
+        .menu-container {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .menu-item {
+            background-color: var(--card-color);
+            border: 3px solid var(--secondary-color);
+            padding: 20px;
+            width: 220px;
+            text-align: center;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .menu-item:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 10px 20px rgba(255, 193, 7, 0.5);
+        }
+
+        .menu-item .icon {
+            font-size: 3em;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        /* --- Content Screen --- */
+        .content-box {
+            padding: 20px;
+            border: 1px dashed #ccc;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+
+        .content-box h2 {
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--secondary-color);
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
+        .back-button {
+            background: #FF6F00; /* Orange */
+            margin-bottom: 20px;
+            padding: 8px 15px;
+        }
+
+        /* Specific Content Styles */
+        .arab-text {
+            /* Menggunakan font Amiri yang lebih jelas untuk teks panjang */
+            font-family: 'Amiri', 'Cairo', serif; 
+            font-size: 1.4em;
+            text-align: right;
+            direction: rtl;
+            background-color: #E8F5E9; /* Light Green */
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+
+        .terjemah-text {
+            font-style: italic;
+            color: #666;
+            margin-bottom: 20px;
+            border-left: 4px solid var(--primary-color);
+            padding-left: 10px;
+        }
+
+        .dialog-item {
+            margin-bottom: 15px;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        .dialog-item:nth-child(odd) {
+            background-color: #FFFDE7; /* Light Yellow for speaker 1 */
+            text-align: left;
+        }
+
+        .dialog-item:nth-child(even) {
+            background-color: #E3F2FD; /* Light Blue for speaker 2 */
+            text-align: right;
+            direction: rtl;
+            /* Menggunakan font Amiri yang lebih jelas untuk dialog Arab */
+            font-family: 'Amiri', 'Cairo', serif; 
+        }
+
+        /* --- Assessment Screen --- */
+        .question-block {
+            margin-bottom: 25px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            background-color: #fff;
+        }
+
+        .question-block p {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #0277BD; /* Blue for questions */
+        }
+
+        .question-block label {
+            display: block;
+            padding: 8px;
+            margin: 5px 0;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .question-block label:hover {
+            background-color: #E0E0E0;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="welcome-screen" class="screen active">
+        <div class="welcome-box">
+            <h1>أَهلًاوَسَهلًا</h1>
+            <h2>مادة اللغة العربية</h2>
+            <h2>الحديقة الحيوان</h2>
+            <p>Isi Nama Kamu Ya Kocak</p>
+            <input type="text" id="student-name" placeholder="Masukkan Nama">
+            <button onclick="startLearning()">Mulai Belajar</button>
+        </div>
+    </div>
+
+    <div id="main-menu" class="screen">
+        <header>
+            <h1 id="greeting-text"></h1>
+            <p>Pilih menu di bawah ini untuk menjelajahi materi:</p>
+        </header>
+        <div class="menu-container">
+            <div class="menu-item" onclick="showContent('ki-kd')">
+                <span class="icon">📜</span>
+                <h3>1. Kompetensi</h3>
+                <p>KI & KD Pembelajaran</p>
+            </div>
+            <div class="menu-item" onclick="showContent('pendahuluan')">
+                <span class="icon">🔍</span>
+                <h3>2. Pendahuluan</h3>
+                <p>Pengantar Materi</p>
+            </div>
+            <div class="menu-item" onclick="showContent('materi-dialog')">
+                <span class="icon">🗣️</span>
+                <h3>3. Teks & Dialog</h3>
+                <p>Paragraf dan Percakapan</p>
+            </div>
+            <div class="menu-item" onclick="showAssessment()">
+                <span class="icon">📝</span>
+                <h3>4. Asesmen</h3>
+                <p>Uji Pemahaman</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="content-screen" class="screen">
+        <button class="back-button" onclick="goToMenu()">← Kembali ke Menu Utama</button>
+        <div class="content-box">
+            <h2 id="content-title"></h2>
+            <div id="content-area">
+                </div>
+        </div>
+    </div>
+
+    <div id="assessment-screen" class="screen">
+        <button class="back-button" onclick="goToMenu()">← Kembali ke Menu Utama</button>
+        <div class="content-box">
+            <h2>Asesmen Pemahaman Materi</h2>
+            <p>Jawablah 10 soal pilihan ganda di bawah ini dengan memilih jawaban yang paling tepat.</p>
+            <form id="assessment-form">
+                </form>
+            <button onclick="submitAssessment()">Kirim Jawaban</button>
+            <div id="result-feedback" style="margin-top: 20px; font-weight: bold;"></div>
+        </div>
+    </div>
+
+    <script>
+        // --- Data Konten ---
+        const materiParagraf = {
+            arab: `الحديقة الحيوان مكان جميل ومدهش. يمكن للطلاب رؤية أنواع مختلفة من الحيوانات مثل الأسود، النمور، الزرافات، والقرود. يذهب الناس إلى هناك للتعلم والترفيه. في نهاية الأسبوع، تزور عائلة أحمد الحديقة. كان الطقس مشمسًا ومثاليًا للنزهة. شاهدوا الفيل الضخم وهو يأكل العشب، والزرافة الطويلة وهي تتناول أوراق الشجرة. التقطوا الكثير من الصور التذكارية. الحديقة توفر فرصة فريدة للتعرف على الحياة البرية وحماية البيئة. إنها رحلة ممتعة ومفيدة للجميع.`,
+            terjemahan: `Kebun Binatang adalah tempat yang indah dan menakjubkan. Para siswa dapat melihat berbagai jenis hewan seperti singa, harimau, jerapah, dan monyet. Orang-orang pergi ke sana untuk belajar dan berekreasi. Di akhir pekan, keluarga Ahmad mengunjungi kebun binatang. Cuacanya cerah dan sangat cocok untuk piknik. Mereka melihat gajah besar sedang memakan rumput, dan jerapah yang tinggi sedang memakan daun pohon. Mereka mengambil banyak foto kenang-kenangan. Kebun binatang menyediakan kesempatan unik untuk mengenal kehidupan liar dan perlindungan lingkungan. Ini adalah perjalanan yang menyenangkan dan bermanfaat bagi semua orang. (± 150 kata)`
+        };
+
+        const dialogs = [
+            { speaker: "Ahmad", text: "مَا هَذَا الْمَكَانُ الْجَمِيلُ؟" },
+            { speaker: "Fatimah", text: "هَذِهِ الْحَدِيقَةُ الْحَيَوَانِ يَا أَحْمَدُ." },
+            { speaker: "Ahmad", text: "كَمْ عَدَدُ الْحَيَوَانَاتِ فِيهَا؟" },
+            { speaker: "Fatimah", text: "فِيهَا حَيَوَانَاتٌ كَثِيرَةٌ، مِثْلُ الْأَسَدِ وَالنَّمِرِ." },
+            { speaker: "Ahmad", text: "مَاذَا يَأْكُلُ الْفِيلُ الضَّخْمُ؟" },
+            { speaker: "Fatimah", text: "يَأْكُلُ الْعُشْبَ وَالْفَوَاكِهَ." },
+            { speaker: "Ahmad", text: "هَلْ سَنَأْخُذُ صُوَرًا لِلتَّذْكَارِ؟" },
+            { speaker: "Fatimah", text: "بِالطَّبْعِ! هَذِهِ زِرَافَةٌ طَوِيلَةٌ جِدًّا." },
+            { speaker: "Ahmad", text: "مَا أَمْتَعَ هَذِهِ الرِّحْلَةَ!" },
+            { speaker: "Fatimah", text: "نَعَمْ، إِنَّهَا مُفِيدَةٌ لِلتَّعَلُّمِ." }
+        ];
+
+        const assessmentQuestions = [
+            {
+                question: "مَا اسْمُ الْمَكَانِ الَّذِي زَارَهُ أَحْمَدُ فِي نِهَايَةِ الْأُسْبُوعِ؟",
+                options: ["الْمَكْتَبَةُ", "الْحَدِيقَةُ الْحَيَوَانِ", "الْمَدْرَسَةُ", "السُّوقُ"],
+                answer: "الْحَدِيقَةُ الْحَيَوَانِ"
+            },
+            {
+                question: "مَا هِيَ صِفَةُ الطَّقْسِ الْمَذْكُورَةُ فِي النَّصِّ؟",
+                options: ["مُمْطِرٌ", "بَارِدٌ", "مُشْمِسٌ", "عَاصِفٌ"],
+                answer: "مُشْمِسٌ"
+            },
+            {
+                question: "أَيُّ حَيَوَانٍ يَأْكُلُ الْعُشْبَ كَمَا جَاءَ فِي النَّصِّ؟",
+                options: ["النَّمِرُ", "الْقِرْدُ", "الْأَسَدُ", "الْفِيلُ"],
+                answer: "الْفِيلُ"
+            },
+            {
+                question: "كَمْ عَدَدُ الْحَيَوَانَاتِ فِي الْحَدِيقَةِ؟",
+                options: ["قَلِيلَةٌ", "مُتَوَسِّطَةٌ", "كَثِيرَةٌ", "وَاحِدَةٌ"],
+                answer: "كَثِيرَةٌ" // Berdasarkan dialog
+            },
+            {
+                question: "ماذا يعني 'الزرافة الطويلة'؟",
+                options: ["Harimau Besar", "Gajah Gemuk", "Jerapah Tinggi", "Monyet Kecil"],
+                answer: "Jerapah Tinggi"
+            },
+            {
+                question: "مَا هِيَ الْفَائِدَةُ مِنْ زِيَارَةِ الْحَدِيقَةِ الْحَيَوَانِ؟",
+                options: ["شِرَاءُ الْمَلَابِسِ", "التَّعَلُّمُ وَالتَّرْفِيهُ", "قِرَاءَةُ الْكُتُبِ", "طَبْخُ الطَّعَامِ"],
+                answer: "التَّعَلُّمُ وَالتَّرْفِيهُ"
+            },
+            {
+                question: "أيّ جملة yang benar berdasarkan percakapan?",
+                options: ["أَحْمَدُ لَمْ يَأْخُذْ صُوَرًا", "هَذِهِ الْحَدِيقَةُ لَيْسَتْ جَمِيلَةً", "فَاطِمَةُ شَاهَدَتْ زِرَافَةً", "الْفِيلُ يَأْكُلُ اللَّحْمَ"],
+                answer: "فَاطِمَةُ شَاهَدَتْ زِرَافَةً"
+            },
+            {
+                question: "كَلِمَةُ 'مُدْهِشٌ' تعني:",
+                options: ["Membosankan", "Menakjubkan", "Kecil", "Dekat"],
+                answer: "Menakjubkan"
+            },
+            {
+                question: "ما هو الهدف utama keluarga Ahmad pergi ke kebun binatang?",
+                options: ["Membeli hewan", "Berekreasi dan belajar", "Mencari makan", "Bertemu guru"],
+                answer: "Berekreasi dan belajar"
+            },
+            {
+                question: "مَاذَا فَعَلَتْ الْعَائِلَةُ لِلْحِفَاظِ عَلَى الذِّكْرَى؟",
+                options: ["كَتَبُوا رِسَالَةً", "شَاهَدُوا فِيلْمًا", "الْتَقَطُوا صُوَرًا", "أَكَلُوا طَعَامًا"],
+                answer: "الْتَقَطُوا صُوَرًا"
+            }
+        ];
+
+        let userName = '';
+        let currentScreenId = 'welcome-screen';
+
+        /**
+         * Fungsi untuk mengganti tampilan antar screen
+         * @param {string} nextScreenId - ID layar berikutnya
+         */
+        function switchScreen(nextScreenId) {
+            document.getElementById(currentScreenId).classList.remove('active');
+            document.getElementById(nextScreenId).classList.add('active');
+            currentScreenId = nextScreenId;
+            window.scrollTo(0, 0); // Gulir ke atas setiap pindah layar
+        }
+
+        /**
+         * Memulai pembelajaran setelah input nama
+         */
+        function startLearning() {
+            userName = document.getElementById('student-name').value.trim();
+            if (userName === '') {
+                alert('Mohon masukkan nama Anda terlebih dahulu!');
+                return;
+            }
+            
+            // Perbaikan: Menghilangkan asterisk dari sapaan
+            document.getElementById('greeting-text').innerHTML = `Halo, ${userName}! Selamat Datang di Materi الحديقة الحيوان`;
+            
+            const submitBtn = document.querySelector('#assessment-screen button:not(.back-button)');
+            if (submitBtn) submitBtn.disabled = false;
+            
+            switchScreen('main-menu');
+        }
+
+        /**
+         * Kembali ke menu utama
+         */
+        function goToMenu() {
+            switchScreen('main-menu');
+        }
+
+        /**
+         * Menampilkan konten spesifik dari menu
+         * @param {string} menuKey - Kunci untuk menentukan konten mana yang dimuat
+         */
+        function showContent(menuKey) {
+            const contentArea = document.getElementById('content-area');
+            let title = '';
+            let htmlContent = '';
+
+            switch (menuKey) {
+                case 'ki-kd':
+                    title = 'Kompetensi Inti & Kompetensi Dasar';
+                    // Perbaikan: Menghilangkan asterisk dari KI/KD
+                    htmlContent = `
+                        <h3>Kompetensi Inti (KI)</h3>
+                        <ul>
+                            <li>KI-3: Memahami dan menerapkan pengetahuan (faktual, konseptual, dan prosedural) berdasarkan rasa ingin tahunya tentang ilmu pengetahuan, teknologi, seni, budaya terkait fenomena dan kejadian tampak mata.</li>
+                            <li>KI-4: Mengolah, menyaji, dan menalar dalam ranah konkret (menggunakan, mengurai, merangkai, memodifikasi, dan membuat) dan ranah abstrak (menulis, membaca, menghitung, menggambar, dan mengarang) sesuai dengan yang dipelajari di sekolah dan sumber lain yang sama dalam sudut pandang/teori.</li>
+                        </ul>
+                        <h3>Kompetensi Dasar (KD)</h3>
+                        <p>3.5 Menganalisis fungsi sosial, struktur teks, dan unsur kebahasaan (bunyi, kata, dan makna) dari teks yang berkaitan dengan tema: الحديقة الحيوان.</p>
+                        <p>4.5 Mendemonstrasikan tindak tutur yang berkaitan dengan tema: الحديقة الحيوان dengan memperhatikan kaidah kebahasaan dan struktur teks yang benar.</p>
+                    `;
+                    break;
+
+                case 'pendahuluan':
+                    title = 'Pendahuluan Materi: الحديقة الحيوان';
+                    // Perbaikan: Menghilangkan asterisk dari Pendahuluan dan Kosakata
+                    htmlContent = `
+                        <p>Materi ini membahas tema الحديقة الحيوان (Kebun Binatang). Kita akan belajar mengenai nama-nama hewan (أسماء الحيوانات), sifat-sifatnya (صفاتها), dan kegiatan-kegiatan yang bisa dilakukan di sana (الأنشطة).</p>
+                        <p>Tujuan utama pembelajaran ini adalah agar Anda mampu mendeskripsikan suasana, hewan, dan kegiatan di kebun binatang menggunakan bahasa Arab yang baik dan benar. Perhatikan kosakata baru berikut:</p>
+                        <ul>
+                            <li>فيل (Gajah), زرافة (Jerapah), أسد (Singa), قرد (Monyet)</li>
+                            <li>جميل (Indah), ضخم (Besar), طويل (Tinggi)</li>
+                            <li>زيارة (Kunjungan), تعلم (Belajar), ترفيه (Rekreasi)</li>
+                        </ul>
+                    `;
+                    break;
+
+                case 'materi-dialog':
+                    title = 'Teks Paragraf dan Percakapan';
+                    
+                    // Konten Paragraf
+                    let paragraphHtml = `
+                        <h3>Paragraf Teks</h3>
+                        <div class="arab-text">${materiParagraf.arab}</div>
+                        <p class="terjemah-text">Terjemahan: ${materiParagraf.terjemahan}</p>
+                        <hr>
+                        <h3>10 Percakapan (حوار)</h3>
+                    `;
+                    
+                    // Konten Dialog
+                    let dialogHtml = dialogs.map((d, index) => `
+                        <div class="dialog-item" style="border-radius: ${d.speaker === 'Ahmad' ? '15px 15px 15px 5px' : '15px 15px 5px 15px'};">
+                            <strong>${d.speaker}</strong>: ${d.text}
+                        </div>
+                    `).join('');
+
+                    htmlContent = paragraphHtml + dialogHtml;
+                    break;
+            }
+
+            document.getElementById('content-title').textContent = title;
+            contentArea.innerHTML = htmlContent;
+            switchScreen('content-screen');
+        }
+
+        /**
+         * Menampilkan halaman asesmen dan me-generate soal
+         */
+        function showAssessment() {
+            const form = document.getElementById('assessment-form');
+            let htmlForm = '';
+            
+            assessmentQuestions.forEach((q, index) => {
+                htmlForm += `
+                    <div class="question-block">
+                        <p>Soal ${index + 1}. ${q.question}</p>
+                `;
+                // Generate opsi jawaban
+                q.options.forEach((option, oIndex) => {
+                    htmlForm += `
+                        <label>
+                            <input type="radio" name="q${index}" value="${option}" required>
+                            ${option}
+                        </label>
+                    `;
+                });
+                htmlForm += `</div>`;
+            });
+
+            form.innerHTML = htmlForm;
+            document.getElementById('result-feedback').innerHTML = ''; // Kosongkan hasil sebelumnya
+            // Aktifkan kembali tombol kirim
+            document.querySelector('#assessment-screen button:not(.back-button)').disabled = false; 
+            switchScreen('assessment-screen');
+        }
+
+        /**
+         * Memproses hasil asesmen
+         */
+        function submitAssessment() {
+            const form = document.getElementById('assessment-form');
+            let score = 0;
+            const totalQuestions = assessmentQuestions.length;
+            let allAnswered = true;
+
+            // Cek apakah semua soal dijawab
+            assessmentQuestions.forEach((q, index) => {
+                const selected = form.querySelector(`input[name="q${index}"]:checked`);
+                if (!selected) {
+                    allAnswered = false;
+                } else if (selected.value === q.answer) {
+                    score++;
+                }
+            });
+
+            if (!allAnswered) {
+                alert("Mohon jawab semua 10 soal terlebih dahulu!");
+                return;
+            }
+
+            const percentage = (score / totalQuestions) * 100;
+            const feedbackText = document.getElementById('result-feedback');
+
+            feedbackText.style.color = percentage >= 70 ? 'var(--primary-color)' : 'red';
+            feedbackText.innerHTML = `
+                <h3>Hasil Asesmen untuk ${userName}</h3>
+                <p>Jawaban Benar: ${score} dari ${totalQuestions} soal</p>
+                <p>Nilai Anda: ${percentage.toFixed(0)}%</p>
+                <p>${percentage >= 70 ? 'Selamat! Anda telah menguasai materi ini dengan baik.' : '🤣🤣 Bodoh Kali! Silakan ulangi materi di menu sebelumnya untuk meningkatkan pemahaman Anda.'}</p>
+            `;
+
+            // Non-aktifkan tombol kirim setelah submit
+            document.querySelector('#assessment-screen button:not(.back-button)').disabled = true; 
+        }
+    </script>
+
+</body>
+</html>
